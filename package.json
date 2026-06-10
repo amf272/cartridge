@@ -1,0 +1,12 @@
+{
+  "name": "cartridge",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}
