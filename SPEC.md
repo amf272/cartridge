@@ -24,10 +24,25 @@ be uploaded to a server during normal use.
 - The hosted page must register a service worker from the same origin.
 - The service worker must cache the player shell for offline launch.
 - The player must accept cartridge payloads by paste and by local file.
+- The player must accept cartridge payloads by in-app QR scan when camera access
+  is available.
 - The player must store saved cartridges locally.
 - The player must execute cartridge HTML inside a sandboxed iframe.
 - The player must not require an account, backend API, analytics service, or
   remote asset after installation.
+
+## QR Payloads
+
+The primary QR format is:
+
+```text
+cart:v1:base64url:<utf8-html-payload>
+```
+
+The scanner also accepts `#cart=<encoded-html-payload>` and full hosted
+cartridge URLs for demos. Generic phone-camera scanning is not the primary flow:
+the installed player should scan QR codes itself so arbitrary cartridge text can
+be decoded without leaving the PWA.
 
 ## Non-Goals
 

@@ -63,6 +63,9 @@ try {
     throw new Error(`expected Cartridge Player title, got ${title}`);
   }
 
+  await page.locator(".example-button", { hasText: "StoopSwipe" }).click();
+  await page.frameLocator("#frame").locator("text=StoopSwipe").waitFor({ timeout: 10000 });
+
   await page.click("#sampleButton");
   await page.frameLocator("#frame").locator("text=Local cartridge").waitFor({ timeout: 10000 });
   console.log("offline smoke passed");

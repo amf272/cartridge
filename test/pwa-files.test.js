@@ -9,10 +9,13 @@ const root = path.resolve(import.meta.dirname, "..");
 const docsFiles = [
   "docs/index.html",
   "docs/app.js",
+  "docs/examples.js",
+  "docs/payloads.js",
   "docs/styles.css",
   "docs/sw.js",
+  "docs/lib/jsQR.js",
   "docs/manifest.webmanifest",
-  "docs/icon.svg"
+  "docs/icon.svg",
 ];
 
 async function text(file) {
@@ -21,7 +24,11 @@ async function text(file) {
 
 test("PWA app shell files exist", () => {
   for (const file of docsFiles) {
-    assert.equal(existsSync(path.join(root, file)), true, `${file} should exist`);
+    assert.equal(
+      existsSync(path.join(root, file)),
+      true,
+      `${file} should exist`,
+    );
   }
 });
 
@@ -43,13 +50,19 @@ test("service worker precaches the offline app shell", async () => {
     "./index.html",
     "./styles.css",
     "./app.js",
+    "./payloads.js",
+    "./examples.js",
+    "./lib/jsQR.js",
     "./manifest.webmanifest",
-    "./icon.svg"
+    "./icon.svg",
   ];
 
   assert.match(sw, /const CORE_ASSETS = \[/);
   for (const asset of requiredAssets) {
-    assert.match(sw, new RegExp(JSON.stringify(asset).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(
+      sw,
+      new RegExp(JSON.stringify(asset).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
+    );
   }
   assert.match(sw, /caches\.open/);
   assert.match(sw, /fetch/);
@@ -60,15 +73,45 @@ test("player registers its service worker and uses local-only app assets", async
   const app = await text("docs/app.js");
 
   assert.match(index, /rel="manifest" href="\.\/manifest\.webmanifest"/);
+  assert.match(index, /src="\.\/lib\/jsQR\.js"/);
   assert.match(index, /src="\.\/app\.js"/);
   assert.match(app, /navigator\.serviceWorker\.register\("\.\/sw\.js"/);
   assert.match(app, /indexedDB\.open\("cartridge-player"/);
-  assert.match(app, /setAttribute\("sandbox", "allow-scripts allow-forms allow-modals"\)/);
+  assert.match(
+    app,
+    /setAttribute\("sandbox", "allow-scripts allow-forms allow-modals"\)/,
+  );
+});
+
+test("player exposes an offline QR scan workflow", async () => {
+  const index = await text("docs/index.html");
+  const app = await text("docs/app.js");
+
+  assert.match(index, /id="scanButton"/);
+  assert.match(index, /id="scannerPanel"/);
+  assert.match(app, /navigator\.mediaDevices\.getUserMedia/);
+  assert.match(app, /window\.jsQR/);
+  assert.match(app, /parseCartridgeInput/);
+});
+
+test("player bundles salient example cartridges", async () => {
+  const examples = await text("docs/examples.js");
+
+  assert.match(examples, /StoopSwipe/);
+  assert.match(examples, /Lunch Special Radar/);
+  assert.match(examples, /Last Call/);
 });
 
 test("first-party PWA files do not depend on remote URLs", async () => {
   for (const file of docsFiles) {
-    const content = (await text(file)).replace("http://www.w3.org/2000/svg", "");
-    assert.doesNotMatch(content, /https?:\/\//, `${file} should not reference remote URLs`);
+    const content = (await text(file)).replace(
+      "http://www.w3.org/2000/svg",
+      "",
+    );
+    assert.doesNotMatch(
+      content,
+      /https?:\/\//,
+      `${file} should not reference remote URLs`,
+    );
   }
 });

@@ -31,6 +31,31 @@ Source repo:
 First contact still needs network because browsers require HTTPS to install a
 service worker. After the player has cached, the runtime path is local.
 
+## QR Workflow
+
+The Home Screen workflow is in-app scanning:
+
+1. Open the saved Cartridge Player.
+2. Tap `Scan`.
+3. Grant camera access.
+4. Scan a QR containing cartridge text.
+5. Run and save the scanned cartridge locally.
+
+The preferred QR payload format is:
+
+```text
+cart:v1:base64url:<utf8-html-payload>
+```
+
+The player also accepts hosted cartridge links shaped like:
+
+```text
+https://aaron-ferber.github.io/cartridge/#cart=<encoded-html-payload>
+```
+
+Use the `cart:v1` format for offline handoff. Use file import or AirDrop for
+larger cartridges; QR codes are best for small payloads.
+
 ## Repository Layout
 
 ```text

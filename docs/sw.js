@@ -1,9 +1,12 @@
-const CACHE_NAME = "cartridge-player-v2";
+const CACHE_NAME = "cartridge-player-v3";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
+  "./payloads.js",
+  "./examples.js",
+  "./lib/jsQR.js",
   "./manifest.webmanifest",
   "./icon.svg",
 ];
