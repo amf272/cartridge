@@ -52,3 +52,21 @@ bundled seed deck rather than a live backend.
     A quote-identification game using a bundled cast of local archetypes,
     apartment listings, review snippets, landlord texts, group-chat messages, and
     overheard lines. The player guesses source and context.
+
+## Keepers — infinite arcade family (Aaron, 2026-06-10)
+
+Procedurally infinite, zero content corpus, pure rules — the purest cartridges.
+All five share: touch-first controls, offline-only, and a standard "score card"
+ending (copy result text back into the chat — the cartridge-native share loop).
+
+| Game                   | Controls (touch)                        | Size class              | Notes                                                  |
+| ---------------------- | --------------------------------------- | ----------------------- | ------------------------------------------------------ |
+| 2048                   | swipe 4 directions                      | tight link / small file | best addictiveness-per-byte; swipe-native; build first |
+| Snake                  | swipe to steer                          | comfortably link-sized  | smallest; nostalgic safe bet                           |
+| Tetris                 | swipe move, tap rotate, swipe-down drop | file cartridge          | the anchor; iconic demo                                |
+| Minesweeper            | tap reveal, long-press flag             | borderline link         | infinite random boards                                 |
+| Flappy/Canabalt runner | single tap                              | link-sized              | one-tap = perfect pass-around game                     |
+
+Rejected from the games round (for the record): challenge-code games (Wordle-style,
+Trivia Duel, Battleship-by-code), Millionaire, 20 Questions — not picked up when
+offered; infinite-arcade family chosen instead.
