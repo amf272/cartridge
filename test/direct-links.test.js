@@ -54,10 +54,13 @@ async function withStaticServer(callback) {
   }
 }
 
-async function withPage(pathname, callback) {
+async function withPage(pathname, callback, contextOptions = {}) {
   await withStaticServer(async (baseUrl) => {
     const browser = await chromium.launch();
-    const context = await browser.newContext({ serviceWorkers: "allow" });
+    const context = await browser.newContext({
+      serviceWorkers: "allow",
+      ...contextOptions,
+    });
     const page = await context.newPage();
 
     try {
@@ -87,6 +90,20 @@ test("?game=2048 launches 2048 in the iframe", async () => {
       .waitFor();
     assert.equal(await page.locator("#currentName").textContent(), "2048");
   });
+});
+
+test("?example=2048 launches even when service worker registration is blocked", async () => {
+  await withPage(
+    "?example=2048",
+    async (page) => {
+      await page
+        .frameLocator("#frame")
+        .locator("text=Join matching tiles to reach 2048.")
+        .waitFor();
+      assert.equal(await page.locator("#currentName").textContent(), "2048");
+    },
+    { serviceWorkers: "block" },
+  );
 });
 
 test("?example=who-said-it launches Who Said It? in the iframe", async () => {
