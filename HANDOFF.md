@@ -54,6 +54,20 @@ offline, and verifies bundled example cartridges still run.
 
 `docs/examples.js` currently bundles:
 
+- `2048`
+- `Snake`
+- `One-tap Runner`
+- `Minesweeper`
+- `Tetris`
+- `Swipe Decks`
+- `Rentle`
+- `Price Is Wrong`
+- `Payroll Tab`
+- `Chargemaster Roulette`
+- `Menus of New York`
+- `Hydrant Index: Jackpot`
+- `Who Said It?`
+- `Group Table`
 - `StoopSwipe`
 - `Lunch Special Radar`
 - `Last Call`
@@ -70,18 +84,30 @@ GAMES.md
 IDEAS.md
 ```
 
-Build order should start with the infinite arcade family:
+The original requested list is implemented and bundled:
 
 1. `2048`
 2. `Snake`
 3. `Tetris`
 4. `Minesweeper`
 5. `One-tap runner`
+6. `Rentle`
+7. `Price Is Wrong`
+8. `Payroll Tab`
+9. `Chargemaster Roulette`
+10. `Menus of New York`
+11. `Hydrant Index: Jackpot`
+12. `Who Said It?`
+13. `Swipe Decks`
+14. `Group Table`
 
 All games should be self-contained cartridge payloads. Prefer small HTML files
 that can be pasted, imported, or encoded into QR payloads when small enough.
 Each game should end with a compact score/result card that can be copied back
 into chat.
+
+Next work should focus on polish, visual QA, richer seed decks, and any new
+cartridge concepts Aaron adds to `GAMES.md`.
 
 ## Product Direction
 
@@ -104,6 +130,6 @@ fun, bite-sized games and NYC-flavored guessing/swipe games.
 
 ## Remote Session Task
 
-Orient on the repo, run the verification commands, then start implementing the
-game backlog as cartridge payloads. Recommended first app: `2048`, because it is
-small, swipe-native, and demonstrates the offline cartridge format cleanly.
+Orient on the repo, run the verification commands, then continue polish or add
+new cartridge payloads. The original 14-game backlog is now implemented as
+bundled offline examples.

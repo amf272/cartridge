@@ -63,6 +63,9 @@ try {
     throw new Error(`expected Cartridge Player title, got ${title}`);
   }
 
+  await page.locator(".example-button", { hasText: "2048" }).click();
+  await page.frameLocator("#frame").locator("text=Join matching tiles").waitFor({ timeout: 10000 });
+
   await page.locator(".example-button", { hasText: "StoopSwipe" }).click();
   await page.frameLocator("#frame").locator("text=StoopSwipe").waitFor({ timeout: 10000 });
 

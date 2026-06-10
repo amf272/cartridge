@@ -10,11 +10,11 @@
 
 | #   | Game                                       | Controls                                | Size class              | Status               |
 | --- | ------------------------------------------ | --------------------------------------- | ----------------------- | -------------------- |
-| 1   | **2048**                                   | swipe 4-way                             | tight link / small file | wanted — build first |
-| 2   | **Snake**                                  | swipe to steer                          | link-sized              | wanted               |
-| 3   | **Tetris**                                 | swipe move, tap rotate, swipe-down drop | file cartridge          | wanted — the anchor  |
-| 4   | **Minesweeper**                            | tap reveal, long-press flag             | borderline link         | wanted               |
-| 5   | **One-tap runner** (Flappy/Canabalt-style) | single tap                              | link-sized              | wanted               |
+| 1   | **2048**                                   | swipe 4-way                             | tight link / small file | built — bundled 2026-06-10 |
+| 2   | **Snake**                                  | swipe to steer                          | link-sized              | built — bundled 2026-06-10 |
+| 3   | **Tetris**                                 | swipe move, tap rotate, swipe-down drop | file cartridge          | built — bundled 2026-06-10 |
+| 4   | **Minesweeper**                            | tap reveal, long-press flag             | borderline link         | built — bundled 2026-06-10 |
+| 5   | **One-tap runner** (Flappy/Canabalt-style) | single tap                              | link-sized              | built — bundled 2026-06-10 |
 
 ## Tier 2 — Guess→gasp reveal games (bundled seed decks; offline; room-playable)
 
@@ -23,20 +23,20 @@ data deck — no backend, decks refresh by shipping a new cartridge.
 
 | #   | Game                       | One-liner                                                        | Seed data             |
 | --- | -------------------------- | ---------------------------------------------------------------- | --------------------- |
-| 6   | **Rentle**                 | guess the rent from real listing clues                           | ~30 curated listings  |
-| 7   | **Price Is Wrong**         | guess the NYC contract amount from agency+purpose                | contract awards rows  |
-| 8   | **Payroll Tab**            | guess what the city pays a Bridge Painter                        | citywide payroll rows |
-| 9   | **Chargemaster Roulette**  | guess the MRI price, hospital vs hospital                        | hospital price files  |
-| 10  | **Menus of New York**      | guess the year from a historical menu                            | NYPL menu excerpts    |
-| 11  | **Hydrant Index: Jackpot** | guess what this corner earned in tickets                         | violations aggregates |
-| 12  | **Who Said It?**           | guess which friend sent the text (needs a chat export per group) | per-group, generated  |
+| 6   | **Rentle**                 | guess the rent from listing clues                                | bundled seed deck — built 2026-06-10 |
+| 7   | **Price Is Wrong**         | guess the NYC contract amount from agency+purpose                | bundled seed deck — built 2026-06-10 |
+| 8   | **Payroll Tab**            | guess what the city pays a Bridge Painter                        | bundled seed deck — built 2026-06-10 |
+| 9   | **Chargemaster Roulette**  | guess the MRI price, hospital vs hospital                        | bundled seed deck — built 2026-06-10 |
+| 10  | **Menus of New York**      | guess the year from a historical menu                            | bundled seed deck — built 2026-06-10 |
+| 11  | **Hydrant Index: Jackpot** | guess what this corner earned in tickets                         | bundled seed deck — built 2026-06-10 |
+| 12  | **Who Said It?**           | guess who said the quote from a bundled archetype cast           | bundled seed deck — built 2026-06-10 |
 
 ## Tier 3 — Swipe & group (engine already exists)
 
 | #   | Game                                | Notes                                                                                                                  |
 | --- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| 13  | **Swipe decks** (IdeaSwipe pattern) | taste-learning swipe engine — BUILT (idea swiper cartridge); re-skin per corpus (StoopSwipe finds, Met artworks, etc.) |
-| 14  | **Group Table**                     | pass-and-play table picker, least-misery scoring; offline variant of the liked concept                                 |
+| 13  | **Swipe decks** (IdeaSwipe pattern) | taste-learning swipe engine — built as `Swipe Decks`, bundled 2026-06-10                                                |
+| 14  | **Group Table**                     | pass-and-play table picker, least-misery scoring — built and bundled 2026-06-10                                         |
 
 ## Rejected for now (don't re-pitch)
 

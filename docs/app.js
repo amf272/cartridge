@@ -148,6 +148,15 @@ function titleFromPayload(payload) {
   return `Cartridge ${new Date().toLocaleString()}`;
 }
 
+function slugFromTitle(title) {
+  return title
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 function runPayload(raw, title = "") {
   const { payload } = parseCartridgeInput(raw);
   if (!payload) {
@@ -159,6 +168,108 @@ function runPayload(raw, title = "") {
   currentName.textContent = activeTitle;
   frame.setAttribute("sandbox", "allow-scripts allow-forms allow-modals");
   frame.srcdoc = payload;
+}
+
+async function loadExamplePayload(example) {
+  if (example.payload) return example.payload;
+  if (!example.payloadPath) return "";
+  const response = await fetch(example.payloadPath);
+  if (!response.ok) {
+    throw new Error(`Could not load ${example.title}`);
+  }
+  return response.text();
+}
+
+function parseDeckParam(value) {
+  if (!value) return null;
+  try {
+    const trimmed = value.trim();
+    const json = trimmed.startsWith("[")
+      ? trimmed
+      : new TextDecoder().decode(
+          Uint8Array.from(
+            atob(
+              trimmed
+                .replace(/-/g, "+")
+                .replace(/_/g, "/")
+                .padEnd(
+                  trimmed.length + ((4 - (trimmed.length % 4)) % 4),
+                  "=",
+                ),
+            ),
+            (char) => char.charCodeAt(0),
+          ),
+        );
+    const deck = JSON.parse(json);
+    return Array.isArray(deck) ? deck : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function escapeScriptJson(value) {
+  return JSON.stringify(value).replace(/[<>&\u2028\u2029]/g, (char) => {
+    const replacements = {
+      "<": "\\u003c",
+      ">": "\\u003e",
+      "&": "\\u0026",
+      "\u2028": "\\u2028",
+      "\u2029": "\\u2029",
+    };
+    return replacements[char];
+  });
+}
+
+function injectSwipeDeckItems(payload, deck) {
+  const injection = `<script>window.__cartridgeSwipeDeckItems=${escapeScriptJson(deck)};</script>`;
+  const marker = "<script>\n    const defaultDeck";
+  if (payload.includes(marker)) {
+    return payload.replace(marker, `${injection}\n  ${marker}`);
+  }
+  if (payload.includes("</head>")) {
+    return payload.replace("</head>", `${injection}\n</head>`);
+  }
+  return `${injection}\n${payload}`;
+}
+
+function applyDirectExampleParams(payload, example, params) {
+  if (slugFromTitle(example.title) !== "swipe-decks") return payload;
+  const deckParam = params.get("deck");
+  if (!deckParam) return payload;
+  const deck = parseDeckParam(deckParam);
+  if (!deck) {
+    toast("Could not read swipe deck.");
+    return payload;
+  }
+  return injectSwipeDeckItems(payload, deck);
+}
+
+async function loadDirectExample() {
+  const params = new URLSearchParams(location.search);
+  const requestedSlug = slugFromTitle(params.get("example") || params.get("game") || "");
+  if (!requestedSlug) return false;
+
+  const example = EXAMPLE_CARTRIDGES.find(
+    (candidate) => slugFromTitle(candidate.title) === requestedSlug,
+  );
+  if (!example) {
+    toast("Example not found.");
+    return false;
+  }
+
+  try {
+    const payload = applyDirectExampleParams(
+      await loadExamplePayload(example),
+      example,
+      params,
+    );
+    input.value = payload;
+    runPayload(payload, example.title);
+    return true;
+  } catch (error) {
+    toast("Could not load example.");
+    return false;
+  }
 }
 
 async function saveActive() {
@@ -222,9 +333,14 @@ function renderExamples() {
     button.type = "button";
     button.className = "example-button";
     button.innerHTML = `<span>${example.title}</span><small>${example.tagline}</small>`;
-    button.addEventListener("click", () => {
-      input.value = example.payload;
-      runPayload(example.payload, example.title);
+    button.addEventListener("click", async () => {
+      try {
+        const payload = await loadExamplePayload(example);
+        input.value = payload;
+        runPayload(payload, example.title);
+      } catch (error) {
+        toast("Could not load example.");
+      }
     });
     examples.append(button);
   }
@@ -258,13 +374,15 @@ function downloadActive() {
 }
 
 async function loadHashPayload() {
-  if (!location.hash.startsWith("#cart=")) return;
+  if (!location.hash.startsWith("#cart=")) return false;
   try {
     const { payload } = parseCartridgeInput(location.hash);
     input.value = payload;
     runPayload(payload);
+    return true;
   } catch (error) {
     toast("Could not read cartridge from URL.");
+    return false;
   }
 }
 
@@ -398,7 +516,8 @@ async function start() {
   await registerServiceWorker();
   renderExamples();
   await renderShelf();
-  await loadHashPayload();
+  if (await loadHashPayload()) return;
+  await loadDirectExample();
 }
 
 start();
