@@ -10,7 +10,9 @@ cache the player; cartridge execution should not depend on a server after that.
 
 The project uses a public GitHub repository and GitHub Pages project site:
 
-- Repository: `aaron-ferber/cartridge`
+- Source repository: `amf272/cartridge`
+- Deployment mirror: `aaron-ferber/aaron-ferber.github.io`, isolated under
+  `/cartridge/`
 - Pages URL: `https://aaron-ferber.github.io/cartridge/`
 
 This intentionally replaces the earlier no-hosting constraint with a narrower

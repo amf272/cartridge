@@ -8,6 +8,10 @@ Public player:
 
 `https://aaron-ferber.github.io/cartridge/`
 
+Source repo:
+
+`https://github.com/amf272/cartridge`
+
 ## Model
 
 - The player is a static PWA served from GitHub Pages.
