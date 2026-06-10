@@ -41,6 +41,9 @@ examples/    Notes for example cartridges
 test/        Static and offline smoke tests
 ```
 
+See `SPEC.md` for the runtime contract and `IDEAS.md` for cartridge game
+directions.
+
 ## Development
 
 ```bash
